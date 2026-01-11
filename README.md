@@ -1,22 +1,23 @@
 # GigFlow - Freelance Marketplace Platform
 
-A full-stack freelance marketplace platform where clients can post gigs and freelancers can submit bids.
+A full-stack freelance marketplace where clients post gigs and freelancers submit bids.
+
+## 🌐 Live Demo
+
+- **Frontend**: https://lively-phoenix-560339.netlify.app
+- **Backend API**: https://gigflow-qoos.onrender.com
 
 ## 🚀 Tech Stack
 
 ### Backend
-- **Node.js** with Express.js
-- **MongoDB** with Mongoose ODM
-- **JWT** Authentication with HttpOnly cookies
-- **Security**: Helmet, CORS, Rate Limiting, MongoDB Sanitization
+- Node.js + Express.js
+- MongoDB + Mongoose
+- JWT Authentication
 
 ### Frontend
-- **React 19** with Vite
-- **Tailwind CSS v4** for styling
-- **Redux Toolkit** for state management
-- **React Router DOM** for routing
-- **React Hook Form** + Zod for form validation
-- **Lucide React** for icons
+- React 19 + Vite
+- Tailwind CSS v4
+- Redux Toolkit
 
 ## 📁 Project Structure
 
@@ -24,124 +25,91 @@ A full-stack freelance marketplace platform where clients can post gigs and free
 gigflow/
 ├── backend/
 │   ├── src/
-│   │   ├── config/       # Configuration files
-│   │   ├── controllers/  # Route controllers
-│   │   ├── middleware/   # Custom middleware
-│   │   ├── models/       # Mongoose models
-│   │   ├── routes/       # API routes
-│   │   ├── utils/        # Utility functions
-│   │   ├── app.js        # Express app setup
-│   │   └── server.js     # Server entry point
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   └── utils/
 │   └── package.json
-├── frontend/
-│   ├── public/           # Static assets
-│   ├── src/
-│   │   ├── assets/       # Images and SVGs
-│   │   ├── components/   # Reusable components
-│   │   ├── pages/        # Page components
-│   │   ├── services/     # API services
-│   │   ├── store/        # Redux store
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   └── package.json
-└── package.json          # Root package.json
+└── frontend/
+    ├── src/
+    │   ├── components/
+    │   ├── pages/
+    │   ├── services/
+    │   └── store/
+    └── package.json
 ```
 
-## 🛠️ Getting Started
+## 🛠️ Local Development
 
 ### Prerequisites
-
 - Node.js >= 18.0.0
-- MongoDB (local or Atlas)
-- npm or yarn
+- MongoDB
 
-### Installation
+### Setup
 
-1. **Clone the repository**
+1. **Clone and install**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Abhimanyu012/gigflow.git
    cd gigflow
+   cd backend && npm install
+   cd ../frontend && npm install
    ```
 
-2. **Install all dependencies**
-   ```bash
-   npm run install:all
-   ```
-
-3. **Configure environment variables**
-
-   Backend (`backend/.env`):
+2. **Backend environment** (`backend/.env`)
    ```env
    NODE_ENV=development
    PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/gigflow
-   JWT_SECRET=your_super_secret_jwt_key_here
+   MONGODB_URI=your_mongodb_uri
+   JWT_SECRET=your_jwt_secret
    JWT_EXPIRE=7d
-   JWT_COOKIE_EXPIRE=7
    CLIENT_URL=http://localhost:5173
    ```
 
-   Frontend (`frontend/.env`):
-   ```env
-   VITE_API_URL=http://localhost:5000/api
-   ```
-
-4. **Start MongoDB**
+3. **Run**
    ```bash
-   # If using local MongoDB
-   mongod
+   # Terminal 1 - Backend
+   cd backend && npm run dev
+
+   # Terminal 2 - Frontend
+   cd frontend && npm run dev
    ```
 
-5. **Run the application**
-   ```bash
-   # Run both frontend and backend
-   npm run dev
-
-   # Or run separately
-   npm run dev:backend
-   npm run dev:frontend
-   ```
-
-6. **Open in browser**
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:5000
+4. **Open** http://localhost:5173
 
 ## 📚 API Endpoints
 
-### Authentication
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login user
-- `POST /api/auth/logout` - Logout user
-- `GET /api/auth/me` - Get current user
+### Auth
+- `POST /api/auth/register` - Register
+- `POST /api/auth/login` - Login
+- `POST /api/auth/logout` - Logout
+- `GET /api/auth/me` - Current user
 
 ### Gigs
-- `GET /api/gigs` - Get all gigs
-- `GET /api/gigs/:id` - Get single gig
-- `POST /api/gigs` - Create a gig (Client only)
-- `PUT /api/gigs/:id` - Update a gig
-- `DELETE /api/gigs/:id` - Delete a gig
-- `GET /api/gigs/my-gigs` - Get user's gigs
+- `GET /api/gigs` - All gigs
+- `POST /api/gigs` - Create gig (Client)
+- `GET /api/gigs/:id` - Single gig
+- `PUT /api/gigs/:id` - Update gig
+- `DELETE /api/gigs/:id` - Delete gig
 
 ### Bids
-- `GET /api/bids` - Get all bids
-- `POST /api/bids` - Submit a bid (Freelancer only)
-- `GET /api/bids/my-bids` - Get user's bids
-- `PATCH /api/bids/:id/status` - Accept/Reject a bid
+- `POST /api/bids` - Submit bid (Freelancer)
+- `GET /api/bids/my-bids` - User's bids
+- `PATCH /api/bids/:id/status` - Accept/Reject bid
 
 ## 🔐 User Roles
 
-- **Client**: Can post gigs and manage bids
-- **Freelancer**: Can browse gigs and submit bids
+- **Client**: Post gigs, manage bids
+- **Freelancer**: Browse gigs, submit bids
 
-## 🎨 Features
+## 🚀 Deployment
 
-- Modern, responsive UI with Tailwind CSS
-- Role-based access control
-- Real-time form validation
-- Toast notifications
-- Secure authentication with JWT
-- Protected routes
+- **Frontend**: Netlify (auto-deploys from `frontend/`)
+- **Backend**: Render (auto-deploys from `backend/`)
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for details.
 
 ## 📝 License
 
-This project is licensed under the MIT License.
+MIT
