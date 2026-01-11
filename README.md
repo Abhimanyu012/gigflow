@@ -4,7 +4,7 @@ A full-stack freelance marketplace where clients post gigs and freelancers submi
 
 ## 🌐 Live Demo
 
-- **Frontend**: https://lively-phoenix-560339.netlify.app
+- **Frontend**: https://gigflowfrontend.netlify.app
 - **Backend API**: https://gigflow-qoos.onrender.com
 
 ## 🚀 Tech Stack
