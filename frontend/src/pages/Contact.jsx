@@ -30,7 +30,7 @@ const Contact = () => {
         {/* Contact Form */}
         <Card>
           <Card.Header>
-            <Card.Title>Send us a Message</Card.Title>
+            <h2 className="text-xl font-semibold text-gray-900">Send us a Message</h2>
           </Card.Header>
           <Card.Content>
             <form onSubmit={handleSubmit} className="space-y-4">
