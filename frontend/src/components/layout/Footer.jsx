@@ -44,26 +44,24 @@ const Footer = () => {
                   Browse Gigs
                 </Link>
               </li>
-              {(!isAuthenticated || user?.role === 'client') && (
-                <li>
-                  <Link to="/gigs/create" className="text-gray-400 hover:text-white transition-colors">
-                    Post a Gig
-                  </Link>
-                </li>
-              )}
+              <li>
+                <Link to="/gigs/create" className="text-gray-400 hover:text-white transition-colors">
+                  Post a Gig
+                </Link>
+              </li>
               {isAuthenticated && (
-                <li>
-                  <Link to="/my-gigs" className="text-gray-400 hover:text-white transition-colors">
-                    My Gigs
-                  </Link>
-                </li>
-              )}
-              {isAuthenticated && user?.role === 'freelancer' && (
-                <li>
-                  <Link to="/my-bids" className="text-gray-400 hover:text-white transition-colors">
-                    My Bids
-                  </Link>
-                </li>
+                <>
+                  <li>
+                    <Link to="/my-gigs" className="text-gray-400 hover:text-white transition-colors">
+                      My Gigs
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/my-bids" className="text-gray-400 hover:text-white transition-colors">
+                      My Bids
+                    </Link>
+                  </li>
+                </>
               )}
             </ul>
           </div>

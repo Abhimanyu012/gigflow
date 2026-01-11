@@ -95,8 +95,9 @@ gigflow/
 
 ### Bids
 - `POST /api/bids` - Submit bid (Freelancer)
+- `GET /api/bids/:gigId` - Get all bids for a gig (Owner only)
 - `GET /api/bids/my-bids` - User's bids
-- `PATCH /api/bids/:id/status` - Accept/Reject bid
+- `PATCH /api/bids/:bidId/hire` - Hire a freelancer (atomic update)
 
 ## 🔐 User Roles
 

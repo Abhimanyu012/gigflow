@@ -54,15 +54,13 @@ const Navbar = () => {
 
             {isAuthenticated ? (
               <>
-                {user?.role === 'client' && (
-                  <Link
-                    to="/gigs/create"
-                    className="flex items-center gap-2 text-gray-600 hover:text-indigo-600 transition-colors font-medium"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Post a Gig
-                  </Link>
-                )}
+                <Link
+                  to="/gigs/create"
+                  className="flex items-center gap-2 text-gray-600 hover:text-indigo-600 transition-colors font-medium"
+                >
+                  <Plus className="w-4 h-4" />
+                  Post a Gig
+                </Link>
                 <Link
                   to="/dashboard"
                   className="flex items-center gap-2 text-gray-600 hover:text-indigo-600 transition-colors font-medium"
@@ -77,15 +75,13 @@ const Navbar = () => {
                   <FileText className="w-4 h-4" />
                   My Gigs
                 </Link>
-                {user?.role === 'freelancer' && (
-                  <Link
-                    to="/my-bids"
-                    className="flex items-center gap-2 text-gray-600 hover:text-indigo-600 transition-colors font-medium"
-                  >
-                    <FileText className="w-4 h-4" />
-                    My Bids
-                  </Link>
-                )}
+                <Link
+                  to="/my-bids"
+                  className="flex items-center gap-2 text-gray-600 hover:text-indigo-600 transition-colors font-medium"
+                >
+                  <FileText className="w-4 h-4" />
+                  My Bids
+                </Link>
 
                 <div className="flex items-center gap-4 ml-4 pl-4 border-l border-gray-200">
                   <div className="flex items-center gap-2">
@@ -156,16 +152,14 @@ const Navbar = () => {
 
             {isAuthenticated ? (
               <>
-                {user?.role === 'client' && (
-                  <Link
-                    to="/gigs/create"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
-                  >
-                    <Plus className="w-5 h-5" />
-                    Post a Gig
-                  </Link>
-                )}
+                <Link
+                  to="/gigs/create"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+                >
+                  <Plus className="w-5 h-5" />
+                  Post a Gig
+                </Link>
                 <Link
                   to="/dashboard"
                   onClick={() => setIsOpen(false)}
@@ -182,16 +176,14 @@ const Navbar = () => {
                   <FileText className="w-5 h-5" />
                   My Gigs
                 </Link>
-                {user?.role === 'freelancer' && (
-                  <Link
-                    to="/my-bids"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
-                  >
-                    <FileText className="w-5 h-5" />
-                    My Bids
-                  </Link>
-                )}
+                <Link
+                  to="/my-bids"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+                >
+                  <FileText className="w-5 h-5" />
+                  My Bids
+                </Link>
                 <div className="border-t border-gray-100 pt-3 mt-3">
                   <div className="flex items-center gap-3 px-4 py-3">
                     <div className="w-10 h-10 bg-linear-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">

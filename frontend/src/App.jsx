@@ -92,7 +92,7 @@ function App() {
           <Route
             path="gigs/create"
             element={
-              <ProtectedRoute allowedRoles={['client']}>
+              <ProtectedRoute>
                 <CreateGig />
               </ProtectedRoute>
             }
@@ -108,7 +108,7 @@ function App() {
           <Route
             path="my-bids"
             element={
-              <ProtectedRoute allowedRoles={['freelancer']}>
+              <ProtectedRoute>
                 <MyBids />
               </ProtectedRoute>
             }
