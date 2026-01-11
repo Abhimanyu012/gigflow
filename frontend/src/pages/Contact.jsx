@@ -72,7 +72,7 @@ const Contact = () => {
         <div className="space-y-8">
           <Card>
             <Card.Content className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center shrink-0">
                 <Mail className="w-6 h-6 text-indigo-600" />
               </div>
               <div>
@@ -85,7 +85,7 @@ const Contact = () => {
 
           <Card>
             <Card.Content className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
                 <Phone className="w-6 h-6 text-green-600" />
               </div>
               <div>
@@ -98,7 +98,7 @@ const Contact = () => {
 
           <Card>
             <Card.Content className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center shrink-0">
                 <MapPin className="w-6 h-6 text-purple-600" />
               </div>
               <div>

@@ -132,7 +132,7 @@ const Help = () => {
       </div>
 
       {/* Contact CTA */}
-      <Card className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
+      <Card className="bg-linear-to-r from-indigo-500 to-purple-600 text-white">
         <Card.Content className="text-center py-8">
           <h3 className="text-2xl font-bold mb-2">Still need help?</h3>
           <p className="mb-6 opacity-90">Our support team is here to assist you</p>

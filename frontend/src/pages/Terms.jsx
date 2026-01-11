@@ -70,7 +70,7 @@ const Terms = () => {
           <Card key={index}>
             <Card.Content>
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center shrink-0">
                   <section.icon className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
