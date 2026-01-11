@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
 
 const Footer = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -32,7 +35,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Links - Role Based */}
           <div>
             <h3 className="text-white font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
@@ -41,21 +44,27 @@ const Footer = () => {
                   Browse Gigs
                 </Link>
               </li>
-              <li>
-                <Link to="/gigs/create" className="text-gray-400 hover:text-white transition-colors">
-                  Post a Gig
-                </Link>
-              </li>
-              <li>
-                <Link to="/my-gigs" className="text-gray-400 hover:text-white transition-colors">
-                  My Gigs
-                </Link>
-              </li>
-              <li>
-                <Link to="/my-bids" className="text-gray-400 hover:text-white transition-colors">
-                  My Bids
-                </Link>
-              </li>
+              {(!isAuthenticated || user?.role === 'client') && (
+                <li>
+                  <Link to="/gigs/create" className="text-gray-400 hover:text-white transition-colors">
+                    Post a Gig
+                  </Link>
+                </li>
+              )}
+              {isAuthenticated && (
+                <li>
+                  <Link to="/my-gigs" className="text-gray-400 hover:text-white transition-colors">
+                    My Gigs
+                  </Link>
+                </li>
+              )}
+              {isAuthenticated && user?.role === 'freelancer' && (
+                <li>
+                  <Link to="/my-bids" className="text-gray-400 hover:text-white transition-colors">
+                    My Bids
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 
@@ -64,24 +73,24 @@ const Footer = () => {
             <h3 className="text-white font-semibold mb-4">Support</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/help" className="text-gray-400 hover:text-white transition-colors">
                   Help Center
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/terms" className="text-gray-400 hover:text-white transition-colors">
                   Terms of Service
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">
                   Contact Us
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

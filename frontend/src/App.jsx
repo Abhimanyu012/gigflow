@@ -15,6 +15,10 @@ import {
   CreateGig,
   MyGigs,
   MyBids,
+  Contact,
+  Privacy,
+  Terms,
+  Help,
 } from './pages';
 
 function App() {
@@ -71,6 +75,10 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="gigs" element={<GigList />} />
           <Route path="gigs/:id" element={<GigDetails />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="privacy" element={<Privacy />} />
+          <Route path="terms" element={<Terms />} />
+          <Route path="help" element={<Help />} />
 
           {/* Protected Routes */}
           <Route
