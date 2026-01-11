@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e0e7ff"/>
+      <stop offset="100%" style="stop-color:#f3e8ff"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4f46e5"/>
+      <stop offset="100%" style="stop-color:#9333ea"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background shapes -->
+  <circle cx="650" cy="150" r="100" fill="#e0e7ff" opacity="0.5"/>
+  <circle cx="150" cy="450" r="80" fill="#f3e8ff" opacity="0.5"/>
+  
+  <!-- Main illustration - Person working -->
+  <rect x="200" y="200" width="400" height="280" rx="20" fill="white" filter="drop-shadow(0 10px 30px rgba(0,0,0,0.1))"/>
+  
+  <!-- Screen content -->
+  <rect x="220" y="220" width="360" height="200" rx="10" fill="#f8fafc"/>
+  
+  <!-- Code lines -->
+  <rect x="240" y="240" width="120" height="8" rx="4" fill="#4f46e5" opacity="0.6"/>
+  <rect x="240" y="260" width="200" height="8" rx="4" fill="#9333ea" opacity="0.4"/>
+  <rect x="240" y="280" width="160" height="8" rx="4" fill="#4f46e5" opacity="0.3"/>
+  <rect x="240" y="300" width="180" height="8" rx="4" fill="#9333ea" opacity="0.5"/>
+  <rect x="240" y="320" width="140" height="8" rx="4" fill="#4f46e5" opacity="0.4"/>
+  
+  <!-- User avatar -->
+  <circle cx="520" cy="280" r="40" fill="url(#cardGrad)"/>
+  <circle cx="520" cy="270" r="15" fill="white"/>
+  <ellipse cx="520" cy="305" rx="25" ry="15" fill="white"/>
+  
+  <!-- Floating elements -->
+  <rect x="100" y="250" width="80" height="80" rx="15" fill="url(#cardGrad)" opacity="0.9"/>
+  <path d="M125 290l15-15 15 15" stroke="white" stroke-width="3" fill="none"/>
+  <rect x="132" y="290" width="6" height="15" fill="white"/>
+  
+  <rect x="620" y="300" width="80" height="80" rx="15" fill="#10b981" opacity="0.9"/>
+  <path d="M645 340l10 10 20-25" stroke="white" stroke-width="3" fill="none"/>
+  
+  <!-- Dollar sign floating -->
+  <circle cx="680" cy="200" r="30" fill="#fbbf24" opacity="0.9"/>
+  <text x="680" y="210" text-anchor="middle" fill="white" font-size="24" font-weight="bold">$</text>
+  
+  <!-- Stars -->
+  <path d="M150 180l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="#fbbf24"/>
+  <path d="M700 400l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="#fbbf24"/>
+</svg>
