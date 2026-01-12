@@ -52,11 +52,6 @@ const GigDetails = () => {
       return;
     }
 
-    if (user.role !== 'freelancer') {
-      toast.error('Only freelancers can place bids');
-      return;
-    }
-
     if (!bidAmount || !bidMessage || !deliveryDays) {
       toast.error('Please fill all fields');
       return;
@@ -126,12 +121,11 @@ const GigDetails = () => {
     );
   }
 
-  const isClient = user?._id === currentGig.ownerId?._id;
-  const isFreelancer = user?.role === 'freelancer';
+  const isOwner = user?._id === currentGig.ownerId?._id;
   const hasAlreadyBid = currentGig.bids?.some(
     (bid) => bid.freelancerId?._id === user?._id
   );
-  const canBid = isAuthenticated && isFreelancer && !isClient && !hasAlreadyBid && currentGig.status === 'open';
+  const canBid = isAuthenticated && !isOwner && !hasAlreadyBid && currentGig.status === 'open';
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -219,8 +213,8 @@ const GigDetails = () => {
                       </div>
                     </div>
 
-                    {/* Hire Button for Client */}
-                    {isClient && bid.status === 'pending' && currentGig.status === 'open' && (
+                    {/* Hire Button for Gig Owner */}
+                    {isOwner && bid.status === 'pending' && currentGig.status === 'open' && (
                       <div className="mt-4">
                         <Button
                           size="sm"

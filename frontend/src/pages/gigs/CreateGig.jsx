@@ -52,19 +52,6 @@ const CreateGig = () => {
     }
   };
 
-  // Check if user is client
-  if (user?.role !== 'client') {
-    return (
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <Alert
-          type="warning"
-          title="Access Denied"
-          message="Only clients can create gigs. Please switch to a client account."
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       {/* Back Button */}

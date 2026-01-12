@@ -60,33 +60,25 @@ const MyGigs = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">My Gigs</h1>
           <p className="text-gray-500">
-            {user?.role === 'client'
-              ? 'Manage your posted gigs'
-              : 'View gigs you are working on'}
+            Manage your posted gigs and projects
           </p>
         </div>
-        {user?.role === 'client' && (
-          <Link to="/gigs/create">
-            <Button>
-              <Plus className="w-4 h-4" />
-              Post New Gig
-            </Button>
-          </Link>
-        )}
+        <Link to="/gigs/create">
+          <Button>
+            <Plus className="w-4 h-4" />
+            Post New Gig
+          </Button>
+        </Link>
       </div>
 
       {/* Gig List */}
       {myGigs.length === 0 ? (
         <EmptyState
           icon={Briefcase}
-          title={user?.role === 'client' ? 'No gigs posted yet' : 'No active gigs'}
-          description={
-            user?.role === 'client'
-              ? 'Post your first gig to start hiring freelancers.'
-              : 'Browse available gigs and start bidding.'
-          }
-          action={() => navigate(user?.role === 'client' ? '/gigs/create' : '/gigs')}
-          actionLabel={user?.role === 'client' ? 'Post a Gig' : 'Browse Gigs'}
+          title="No gigs posted yet"
+          description="Post your first gig to start hiring freelancers."
+          action={() => navigate('/gigs/create')}
+          actionLabel="Post a Gig"
         />
       ) : (
         <div className="space-y-4">
@@ -140,24 +132,22 @@ const MyGigs = () => {
                     </div>
 
                     {/* Action Buttons */}
-                    {user?.role === 'client' && (
-                      <div className="flex items-center gap-2">
-                        <Link to={`/gigs/${gig._id}`}>
-                          <Button size="sm" variant="outline">
-                            View Bids
-                          </Button>
-                        </Link>
-                        {gig.status === 'open' && (
-                          <Button
-                            size="sm"
-                            variant="danger"
-                            onClick={() => handleDelete(gig._id)}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        )}
-                      </div>
-                    )}
+                    <div className="flex items-center gap-2">
+                      <Link to={`/gigs/${gig._id}`}>
+                        <Button size="sm" variant="outline">
+                          View Bids
+                        </Button>
+                      </Link>
+                      {gig.status === 'open' && (
+                        <Button
+                          size="sm"
+                          variant="danger"
+                          onClick={() => handleDelete(gig._id)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
 

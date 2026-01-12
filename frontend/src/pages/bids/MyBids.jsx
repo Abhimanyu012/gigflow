@@ -61,18 +61,6 @@ const MyBids = () => {
     return <LoadingScreen />;
   }
 
-  if (user?.role !== 'freelancer') {
-    return (
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <EmptyState
-          icon={FileText}
-          title="For Freelancers Only"
-          description="Only freelancers can view and manage bids."
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       {/* Header */}
