@@ -21,7 +21,9 @@ import toast from 'react-hot-toast';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [activeRect, setActiveRect] = useState({ left: 0, width: 0, opacity: 0 });
   const profileRef = useRef(null);
+  const tabsRef = useRef({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,6 +44,50 @@ const Navbar = () => {
     setIsProfileOpen(false);
   }, [location.pathname]);
 
+  // Track active tab rect for liquid indicator
+  useEffect(() => {
+    const updateActiveIndicator = () => {
+      let activeKey = null;
+      if (location.pathname === '/') {
+        activeKey = 'home';
+      } else if (location.pathname.startsWith('/gigs') && !location.pathname.includes('my-gigs') && !location.pathname.includes('/create')) {
+        activeKey = 'browse';
+      } else if (location.pathname.startsWith('/dashboard')) {
+        activeKey = 'dash';
+      } else if (isOpen || location.pathname.startsWith('/my-gigs') || location.pathname.startsWith('/my-bids') || location.pathname.startsWith('/help')) {
+        activeKey = 'more';
+      } else if (location.pathname.startsWith('/login')) {
+        activeKey = 'login';
+      } else if (location.pathname.startsWith('/register')) {
+        activeKey = 'register';
+      }
+
+      const activeEl = tabsRef.current[activeKey];
+      if (activeEl) {
+        setActiveRect({
+          left: activeEl.offsetLeft,
+          width: activeEl.offsetWidth,
+          opacity: 1,
+        });
+      } else {
+        setActiveRect((prev) => ({ ...prev, opacity: 0 }));
+      }
+    };
+
+    updateActiveIndicator();
+    const frameId = requestAnimationFrame(updateActiveIndicator);
+    
+    // Add small delay to ensure DOM layout is updated
+    const timeoutId = setTimeout(updateActiveIndicator, 50);
+
+    window.addEventListener('resize', updateActiveIndicator);
+    return () => {
+      window.removeEventListener('resize', updateActiveIndicator);
+      cancelAnimationFrame(frameId);
+      clearTimeout(timeoutId);
+    };
+  }, [location.pathname, isOpen, isAuthenticated]);
+
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
@@ -60,31 +106,30 @@ const Navbar = () => {
   const userInitial = user?.name?.charAt(0).toUpperCase();
 
   /* ── Tab item for the floating nav ── */
-  const NavTab = ({ to, icon: Icon, label, isActive, onClick }) => {
+  const NavTab = ({ to, icon: Icon, label, isActive, onClick, tabKey }) => {
     const Tag = onClick ? 'button' : Link;
     const extraProps = onClick ? { onClick } : { to };
     return (
       <Tag
         {...extraProps}
+        ref={(el) => {
+          if (el) tabsRef.current[tabKey] = el;
+        }}
         className={`
-          relative flex flex-col sm:flex-row items-center justify-center
-          gap-1 sm:gap-1.5
-          px-3 sm:px-4 py-2 sm:py-2
-          min-w-[52px] sm:min-w-0
-          rounded-xl transition-all duration-200 ease-in-out
-          text-[10px] sm:text-xs font-semibold
+          relative flex items-center justify-center
+          gap-2
+          px-3 sm:px-4 py-3 sm:py-2.5
+          flex-1 sm:flex-initial sm:min-w-[100px]
+          rounded-xl sm:rounded-full transition-all duration-300 ease-in-out
+          text-xs font-semibold z-10
           ${isActive
-            ? 'bg-brand-emerald/15 text-brand-emerald'
-            : 'text-matte-stone/40 hover:text-matte-stone/75 hover:bg-white/5'
+            ? 'text-brand-emerald font-bold'
+            : 'text-matte-stone/40 hover:text-matte-stone/80'
           }
         `}
       >
-        <Icon className={`w-5 h-5 sm:w-4 sm:h-4 shrink-0 ${isActive ? 'stroke-[2.2px]' : 'stroke-[1.8px]'}`} />
-        <span className="leading-none whitespace-nowrap">{label}</span>
-        {/* Active dot */}
-        {isActive && (
-          <span className="absolute -top-px left-1/2 -translate-x-1/2 w-5 h-[2px] rounded-full bg-brand-emerald sm:hidden" />
-        )}
+        <Icon className={`w-5 h-5 sm:w-4 sm:h-4 shrink-0 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-105'}`} />
+        <span className="hidden sm:inline-block leading-none whitespace-nowrap">{label}</span>
       </Tag>
     );
   };
@@ -95,47 +140,55 @@ const Navbar = () => {
       to="/gigs/create"
       aria-label="Post a new gig"
       className="
-        w-11 h-11 sm:w-10 sm:h-10
+        w-10 h-10 sm:w-12 sm:h-12
         rounded-full btn-glass-primary
         flex items-center justify-center
-        shadow-[0_4px_20px_rgba(15,76,58,0.45)]
-        active:scale-95 transition-all duration-150
-        mx-1 sm:mx-2
+        shadow-[0_4px_24px_rgba(15,76,58,0.45)]
+        hover:scale-105 active:scale-95 transition-all duration-300
+        mx-1 sm:mx-2 z-10 shrink-0
       "
     >
-      <Plus className="w-5 h-5 sm:w-4 sm:h-4" />
+      <Plus className="w-5 h-5 sm:w-5 sm:h-5" />
     </Link>
   );
 
   return (
     <>
       {/* ════════════════════════════════════════════════
-          FLOATING BOTTOM NAV — all screen sizes
+          FLOATING BOTTOM NAV — Breathable Capsule Shape
           ════════════════════════════════════════════════ */}
       <nav
         aria-label="Main navigation"
         className="
-          fixed bottom-4 left-1/2 -translate-x-1/2 z-50
-          flex items-center
-          bg-matte-charcoal/90 backdrop-blur-2xl
-          border border-matte-divider
-          rounded-2xl
-          shadow-[0_8px_40px_rgba(0,0,0,0.55),0_1px_0_rgba(255,255,255,0.04)_inset]
-          px-2 py-1.5
+          fixed bottom-6 left-1/2 -translate-x-1/2 z-50
+          flex items-center justify-between sm:justify-start
+          bg-matte-charcoal/85 backdrop-blur-3xl
+          border border-white/5
+          rounded-2xl sm:rounded-full
+          shadow-[0_24px_50px_-12px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.06),0_8px_16px_-8px_rgba(15,76,58,0.3)]
+          px-2 py-1.5 sm:px-2.5 sm:py-2
           gap-1
-
-          /* Full-width on small screens, auto width on sm+ */
           w-[calc(100%-2rem)] sm:w-auto
-
-          /* Ensure it doesn't overflow page content (safe-area) */
           mb-[env(safe-area-inset-bottom)]
+          transition-all duration-300
         "
       >
+        {/* Liquid Active Indicator backdrop pill */}
+        <div
+          className="absolute top-[8px] bottom-[8px] rounded-xl sm:rounded-full bg-brand-emerald/12 border border-brand-emerald/20 pointer-events-none liquid-pill-indicator z-0"
+          style={{
+            left: `${activeRect.left}px`,
+            width: `${activeRect.width}px`,
+            opacity: activeRect.opacity,
+          }}
+        />
+
         {/* Home */}
         <NavTab
           to="/"
           icon={Home}
           label="Home"
+          tabKey="home"
           isActive={isActiveRoute('/') && location.pathname === '/'}
         />
 
@@ -144,7 +197,8 @@ const Navbar = () => {
           to="/gigs"
           icon={Search}
           label="Browse"
-          isActive={isActiveRoute('/gigs') && !location.pathname.includes('my-gigs')}
+          tabKey="browse"
+          isActive={isActiveRoute('/gigs') && !location.pathname.includes('my-gigs') && !location.pathname.includes('/create')}
         />
 
         {isAuthenticated ? (
@@ -157,6 +211,7 @@ const Navbar = () => {
               to="/dashboard"
               icon={LayoutDashboard}
               label="Dash"
+              tabKey="dash"
               isActive={isActiveRoute('/dashboard')}
             />
 
@@ -164,19 +219,29 @@ const Navbar = () => {
             <NavTab
               icon={Menu}
               label="More"
-              isActive={isOpen}
+              tabKey="more"
+              isActive={isOpen || location.pathname.includes('my-gigs') || location.pathname.includes('my-bids') || location.pathname.includes('help')}
               onClick={() => setIsOpen(!isOpen)}
             />
           </>
         ) : (
           <>
             {/* Divider */}
-            <span className="w-px h-6 bg-matte-divider mx-1" />
+            <span className="w-px h-6 bg-matte-divider mx-1 sm:mx-1.5 self-center shrink-0" />
 
             {/* Log in */}
             <Link
               to="/login"
-              className="px-3 py-2 text-xs font-semibold text-matte-stone/50 hover:text-matte-bone transition-colors rounded-xl hover:bg-white/5"
+              ref={(el) => {
+                if (el) tabsRef.current['login'] = el;
+              }}
+              className={`
+                px-3 sm:px-4 py-2 sm:py-2.5 text-xs font-semibold transition-all duration-300 rounded-xl sm:rounded-full z-10 shrink-0
+                ${isActiveRoute('/login')
+                  ? 'text-brand-emerald font-bold'
+                  : 'text-matte-stone/40 hover:text-matte-stone/80 hover:bg-white/5'
+                }
+              `}
             >
               Log in
             </Link>
@@ -184,16 +249,20 @@ const Navbar = () => {
             {/* Get Started — glass pill */}
             <Link
               to="/register"
+              ref={(el) => {
+                if (el) tabsRef.current['register'] = el;
+              }}
               className="
-                inline-flex items-center gap-1.5
-                px-4 py-2 rounded-xl
+                inline-flex items-center justify-center
+                px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-full
                 btn-glass-primary
                 text-xs font-semibold
-                min-h-[36px]
-                transition-all duration-200
+                min-h-[32px] sm:min-h-[36px]
+                transition-all duration-300 z-10 shrink-0
               "
             >
-              Get Started
+              <span className="hidden sm:inline-block">Get Started</span>
+              <span className="inline-block sm:hidden">Join</span>
             </Link>
           </>
         )}
