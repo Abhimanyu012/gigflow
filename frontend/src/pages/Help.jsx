@@ -12,25 +12,25 @@ const Help = () => {
       icon: Zap,
       title: 'Getting Started',
       description: 'Learn the basics of using GigFlow',
-      color: 'bg-yellow-100 text-yellow-600',
+      color: 'bg-brand-emerald-light/40 border border-brand-emerald/10 text-brand-emerald',
     },
     {
       icon: Book,
       title: 'Posting Gigs',
       description: 'How to create and manage gigs',
-      color: 'bg-blue-100 text-blue-600',
+      color: 'bg-brand-emerald-light/40 border border-brand-emerald/10 text-brand-emerald',
     },
     {
       icon: MessageCircle,
       title: 'Bidding',
       description: 'Submit and manage your bids',
-      color: 'bg-green-100 text-green-600',
+      color: 'bg-brand-emerald-light/40 border border-brand-emerald/10 text-brand-emerald',
     },
     {
       icon: HelpCircle,
       title: 'Account & Security',
       description: 'Manage your account settings',
-      color: 'bg-purple-100 text-purple-600',
+      color: 'bg-brand-emerald-light/40 border border-brand-emerald/10 text-brand-emerald',
     },
   ];
 
@@ -70,12 +70,12 @@ const Help = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Help Center</h1>
-        <p className="text-xl text-gray-600 mb-8">
+        <h1 className="text-4xl font-display font-black text-matte-charcoal mb-4 tracking-tight">Help Center</h1>
+        <p className="text-lg text-matte-charcoal/60 mb-8">
           How can we help you today?
         </p>
         <div className="max-w-xl mx-auto relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-matte-charcoal/45 w-5 h-5 z-10" />
           <Input
             placeholder="Search for help..."
             value={searchQuery}
@@ -89,13 +89,13 @@ const Help = () => {
       <div className="grid sm:grid-cols-2 gap-4 mb-12">
         {categories.map((category, index) => (
           <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer">
-            <Card.Content className="flex items-start gap-4">
-              <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${category.color}`}>
-                <category.icon className="w-6 h-6" />
+            <Card.Content className="flex items-start gap-4 py-5">
+              <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${category.color}`}>
+                <category.icon className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">{category.title}</h3>
-                <p className="text-sm text-gray-600">{category.description}</p>
+                <h3 className="font-display font-bold text-base text-matte-charcoal">{category.title}</h3>
+                <p className="text-sm text-matte-charcoal/65 mt-0.5">{category.description}</p>
               </div>
             </Card.Content>
           </Card>
@@ -104,26 +104,26 @@ const Help = () => {
 
       {/* FAQs */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+        <h2 className="text-2xl font-display font-extrabold text-matte-charcoal mb-6 tracking-tight">Frequently Asked Questions</h2>
         <div className="space-y-4">
           {filteredFaqs.map((faq, index) => (
             <Card key={index}>
               <button
                 onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                className="w-full text-left"
+                className="w-full text-left focus:outline-hidden"
               >
-                <Card.Content className="flex items-center justify-between">
-                  <span className="font-medium text-gray-900">{faq.question}</span>
+                <Card.Content className="flex items-center justify-between py-4">
+                  <span className="font-display font-bold text-sm text-matte-charcoal">{faq.question}</span>
                   {openFaq === index ? (
-                    <ChevronUp className="w-5 h-5 text-gray-500" />
+                    <ChevronUp className="w-4 h-4 text-matte-charcoal/50" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-gray-500" />
+                    <ChevronDown className="w-4 h-4 text-matte-charcoal/50" />
                   )}
                 </Card.Content>
               </button>
               {openFaq === index && (
-                <div className="px-6 pb-4">
-                  <p className="text-gray-600">{faq.answer}</p>
+                <div className="px-6 pb-5">
+                  <p className="text-sm text-matte-charcoal/70 leading-relaxed">{faq.answer}</p>
                 </div>
               )}
             </Card>
@@ -132,12 +132,12 @@ const Help = () => {
       </div>
 
       {/* Contact CTA */}
-      <Card className="bg-linear-to-r from-indigo-500 to-purple-600 text-white">
+      <Card className="bg-brand-emerald border-brand-emerald-hover text-white">
         <Card.Content className="text-center py-8">
-          <h3 className="text-2xl font-bold mb-2">Still need help?</h3>
-          <p className="mb-6 opacity-90">Our support team is here to assist you</p>
+          <h3 className="text-2xl font-display font-extrabold mb-2 tracking-tight">Still need help?</h3>
+          <p className="mb-6 text-sm text-white/80 font-medium">Our support team is here to assist you</p>
           <Link to="/contact">
-            <Button variant="outline" className="bg-white text-indigo-600 border-white hover:bg-gray-100">
+            <Button variant="secondary" className="bg-matte-bone text-brand-emerald hover:bg-matte-bone/90 border-transparent">
               Contact Support
             </Button>
           </Link>

@@ -1,113 +1,154 @@
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { LogIn, Mail, Lock, Briefcase } from 'lucide-react';
-import toast from 'react-hot-toast';
-import { login, clearError } from '../../store/slices/authSlice';
-import { Button, Input, Card } from '../../components/ui';
-
-const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-});
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
+import { login } from '../../store/slices/authSlice';
+import { Button, Input } from '../../components/ui';
+import { AlertTriangle, ArrowRight, Briefcase, Shield, Zap } from 'lucide-react';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading, error, isAuthenticated } = useSelector((state) => state.auth);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(loginSchema),
-  });
-
-  useEffect(() => {
-    if (isAuthenticated) {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await dispatch(login({ email, password })).unwrap();
       navigate('/dashboard');
+    } catch (err) {
+      setError(err?.message || 'Login failed');
     }
-  }, [isAuthenticated, navigate]);
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(clearError());
-    }
-  }, [error, dispatch]);
-
-  const onSubmit = (data) => {
-    dispatch(login(data));
   };
 
   return (
-    <div className="min-h-[calc(100vh-200px)] flex items-center justify-center py-12 px-4">
-      <div className="w-full max-w-md">
-        {/* Logo & Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-r from-indigo-600 to-purple-600 rounded-2xl mb-4">
-            <Briefcase className="w-8 h-8 text-white" />
+    <div className="min-h-screen flex">
+      {/* ── Left brand panel ── */}
+      <div className="hidden md:flex w-[45%] bg-matte-ink relative overflow-hidden flex-col">
+        {/* Emerald left-edge stripe */}
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-brand-emerald" />
+
+        {/* Faint grid texture */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              'repeating-linear-gradient(0deg,transparent,transparent 39px,#faf9f6 39px,#faf9f6 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,#faf9f6 39px,#faf9f6 40px)',
+          }}
+        />
+
+        {/* Emerald ambient glow */}
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-brand-emerald/10 rounded-full blur-3xl" />
+
+        <div className="relative z-10 flex flex-col h-full p-12">
+          {/* Logo */}
+          <Link to="/" className="block">
+            <span className="text-xl font-display font-extrabold text-matte-bone tracking-tight">
+              Gig<span className="text-brand-emerald">Flow</span>
+            </span>
+          </Link>
+
+          {/* Center copy */}
+          <div className="flex-1 flex flex-col justify-center max-w-sm">
+            <p className="text-xs font-sans font-semibold uppercase tracking-widest text-brand-emerald mb-4">
+              Welcome back
+            </p>
+            <h1 className="text-4xl font-display font-extrabold text-matte-bone leading-tight mb-4">
+              Your work,<br />your terms.
+            </h1>
+            <p className="text-sm text-matte-stone/45 leading-relaxed mb-10">
+              The premier marketplace connecting skilled freelancers with clients who value quality.
+            </p>
+
+            <ul className="space-y-4">
+              {[
+                { icon: Briefcase, text: 'Post gigs and receive competitive bids' },
+                { icon: Shield, text: 'Secure, transparent transactions' },
+                { icon: Zap, text: 'Hire in hours, not weeks' },
+              ].map(({ icon: Icon, text }) => (
+                <li key={text} className="flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-md border border-brand-emerald/20 bg-brand-emerald/8 flex items-center justify-center shrink-0">
+                    <Icon className="w-3.5 h-3.5 text-brand-emerald" />
+                  </div>
+                  <span className="text-sm text-matte-stone/50">{text}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">Welcome back</h1>
-          <p className="text-gray-500 mt-2">Sign in to continue to GigFlow</p>
+
+          {/* Bottom caption */}
+          <p className="text-[11px] text-matte-stone/20 font-medium">
+            © {new Date().getFullYear()} GigFlow
+          </p>
         </div>
+      </div>
 
-        {/* Login Form */}
-        <Card className="p-8">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            <div>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <Input
-                  {...register('email')}
-                  type="email"
-                  placeholder="Email address"
-                  className="pl-11"
-                  error={errors.email?.message}
-                />
-              </div>
-            </div>
+      {/* ── Right form panel ── */}
+      <div className="flex-1 flex items-center justify-center bg-matte-charcoal px-8 py-12">
+        <div className="w-full max-w-sm space-y-7">
+          {/* Mobile logo */}
+          <div className="md:hidden">
+            <Link to="/">
+              <span className="text-xl font-display font-extrabold text-matte-bone">
+                Gig<span className="text-brand-emerald">Flow</span>
+              </span>
+            </Link>
+          </div>
 
-            <div>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <Input
-                  {...register('password')}
-                  type="password"
-                  placeholder="Password"
-                  className="pl-11"
-                  error={errors.password?.message}
-                />
-              </div>
-            </div>
-
-            <Button
-              type="submit"
-              fullWidth
-              isLoading={isLoading}
-              className="mt-6"
-            >
-              <LogIn className="w-4 h-4" />
-              Sign In
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-gray-500">
-              Don't have an account?{' '}
-              <Link
-                to="/register"
-                className="text-indigo-600 font-medium hover:text-indigo-700"
-              >
-                Create one
+          <div>
+            <h2 className="text-2xl font-display font-extrabold text-matte-bone tracking-tight">
+              Log in to your account
+            </h2>
+            <p className="text-sm text-matte-stone/40 mt-1">
+              Don't have one?{' '}
+              <Link to="/register" className="text-brand-emerald hover:underline font-medium">
+                Sign up free
               </Link>
             </p>
           </div>
-        </Card>
+
+          {error && (
+            <div className="flex items-center gap-2.5 text-sm text-red-400 bg-red-900/15 border border-red-800/30 px-3.5 py-3 rounded-md">
+              <AlertTriangle className="w-4 h-4 shrink-0" />
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input
+              id="login-email"
+              type="email"
+              label="Email address"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+            />
+            <Input
+              id="login-password"
+              type="password"
+              label="Password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+            />
+            <div className="pt-1">
+              <Button
+                id="login-submit-btn"
+                type="submit"
+                variant="primary"
+                fullWidth
+                size="lg"
+              >
+                Log In
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -3,48 +3,48 @@ import { AlertCircle, CheckCircle, Info, XCircle } from 'lucide-react';
 const Alert = ({ type = 'info', title, message, className = '' }) => {
   const types = {
     info: {
-      bg: 'bg-blue-50',
-      border: 'border-blue-200',
-      text: 'text-blue-800',
-      icon: Info,
+      bg:     'bg-white/4',
+      border: 'border-white/10',
+      text:   'text-matte-stone/80',
+      iconColor: 'text-matte-stone/50',
+      icon:   Info,
     },
     success: {
-      bg: 'bg-green-50',
-      border: 'border-green-200',
-      text: 'text-green-800',
-      icon: CheckCircle,
+      bg:     'bg-brand-emerald/10',
+      border: 'border-brand-emerald/20',
+      text:   'text-emerald-300',
+      iconColor: 'text-emerald-400',
+      icon:   CheckCircle,
     },
     warning: {
-      bg: 'bg-yellow-50',
-      border: 'border-yellow-200',
-      text: 'text-yellow-800',
-      icon: AlertCircle,
+      bg:     'bg-amber-900/20',
+      border: 'border-amber-700/30',
+      text:   'text-amber-300',
+      iconColor: 'text-amber-400',
+      icon:   AlertCircle,
     },
     error: {
-      bg: 'bg-red-50',
-      border: 'border-red-200',
-      text: 'text-red-800',
-      icon: XCircle,
+      bg:     'bg-red-900/20',
+      border: 'border-red-700/30',
+      text:   'text-red-300',
+      iconColor: 'text-red-400',
+      icon:   XCircle,
     },
   };
 
-  const config = types[type];
+  const config = types[type] ?? types.info;
   const Icon = config.icon;
 
   return (
-    <div
-      className={`
-        rounded-lg border p-4 ${config.bg} ${config.border} ${className}
-      `}
-    >
+    <div className={`rounded-md border p-4 ${config.bg} ${config.border} ${className}`}>
       <div className="flex items-start gap-3">
-        <Icon className={`w-5 h-5 ${config.text} shrink-0 mt-0.5`} />
+        <Icon className={`w-4.5 h-4.5 ${config.iconColor} shrink-0 mt-0.5`} />
         <div>
           {title && (
-            <h4 className={`font-medium ${config.text}`}>{title}</h4>
+            <h4 className={`text-sm font-semibold ${config.text}`}>{title}</h4>
           )}
           {message && (
-            <p className={`text-sm ${config.text} ${title ? 'mt-1' : ''}`}>
+            <p className={`text-sm ${config.text} opacity-80 ${title ? 'mt-0.5' : ''}`}>
               {message}
             </p>
           )}

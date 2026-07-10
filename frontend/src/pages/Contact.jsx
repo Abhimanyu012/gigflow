@@ -20,8 +20,8 @@ const Contact = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <h1 className="text-4xl font-display font-black text-matte-charcoal mb-4 tracking-tight">Contact Us</h1>
+        <p className="text-base text-matte-charcoal/60 max-w-2xl mx-auto">
           Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
         </p>
       </div>
@@ -30,7 +30,7 @@ const Contact = () => {
         {/* Contact Form */}
         <Card>
           <Card.Header>
-            <h2 className="text-xl font-semibold text-gray-900">Send us a Message</h2>
+            <h2 className="text-lg font-display font-bold text-matte-charcoal">Send us a Message</h2>
           </Card.Header>
           <Card.Content>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -71,40 +71,40 @@ const Contact = () => {
         {/* Contact Info */}
         <div className="space-y-8">
           <Card>
-            <Card.Content className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center shrink-0">
-                <Mail className="w-6 h-6 text-indigo-600" />
+            <Card.Content className="flex items-start gap-4 py-5">
+              <div className="w-11 h-11 bg-brand-emerald-light/40 border border-brand-emerald/10 rounded-xl flex items-center justify-center shrink-0 text-brand-emerald">
+                <Mail className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                <p className="text-gray-600">support@gigflow.com</p>
-                <p className="text-gray-600">hello@gigflow.com</p>
+                <h3 className="font-display font-bold text-base text-matte-charcoal mb-1">Email</h3>
+                <p className="text-sm text-matte-charcoal/65">support@gigflow.com</p>
+                <p className="text-sm text-matte-charcoal/65">hello@gigflow.com</p>
               </div>
             </Card.Content>
           </Card>
 
           <Card>
-            <Card.Content className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
-                <Phone className="w-6 h-6 text-green-600" />
+            <Card.Content className="flex items-start gap-4 py-5">
+              <div className="w-11 h-11 bg-brand-emerald-light/40 border border-brand-emerald/10 rounded-xl flex items-center justify-center shrink-0 text-brand-emerald">
+                <Phone className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                <p className="text-gray-600">+1 (555) 123-4567</p>
-                <p className="text-gray-600">Mon-Fri 9am-6pm EST</p>
+                <h3 className="font-display font-bold text-base text-matte-charcoal mb-1">Phone</h3>
+                <p className="text-sm text-matte-charcoal/65">+1 (555) 123-4567</p>
+                <p className="text-sm text-matte-charcoal/65">Mon-Fri 9am-6pm EST</p>
               </div>
             </Card.Content>
           </Card>
 
           <Card>
-            <Card.Content className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center shrink-0">
-                <MapPin className="w-6 h-6 text-purple-600" />
+            <Card.Content className="flex items-start gap-4 py-5">
+              <div className="w-11 h-11 bg-brand-emerald-light/40 border border-brand-emerald/10 rounded-xl flex items-center justify-center shrink-0 text-brand-emerald">
+                <MapPin className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900 mb-1">Office</h3>
-                <p className="text-gray-600">123 Business Street</p>
-                <p className="text-gray-600">New York, NY 10001</p>
+                <h3 className="font-display font-bold text-base text-matte-charcoal mb-1">Office</h3>
+                <p className="text-sm text-matte-charcoal/65">123 Business Street</p>
+                <p className="text-sm text-matte-charcoal/65">New York, NY 10001</p>
               </div>
             </Card.Content>
           </Card>

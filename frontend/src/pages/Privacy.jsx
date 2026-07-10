@@ -47,15 +47,15 @@ const Privacy = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Privacy Policy</h1>
-        <p className="text-xl text-gray-600">
+        <h1 className="text-4xl font-display font-black text-matte-charcoal mb-4 tracking-tight">Privacy Policy</h1>
+        <p className="text-xs text-matte-charcoal/50 font-bold uppercase tracking-wider">
           Last updated: January 2026
         </p>
       </div>
 
       <Card className="mb-8">
         <Card.Content>
-          <p className="text-gray-600 leading-relaxed">
+          <p className="text-sm text-matte-charcoal/70 leading-relaxed">
             At GigFlow, we take your privacy seriously. This Privacy Policy explains how we collect, 
             use, disclose, and safeguard your information when you use our platform. Please read this 
             privacy policy carefully. By using GigFlow, you agree to the collection and use of 
@@ -67,14 +67,14 @@ const Privacy = () => {
       <div className="space-y-6">
         {sections.map((section, index) => (
           <Card key={index}>
-            <Card.Content>
+            <Card.Content className="py-5">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center shrink-0">
-                  <section.icon className="w-6 h-6 text-indigo-600" />
+                <div className="w-11 h-11 bg-brand-emerald-light/40 border border-brand-emerald/10 rounded-xl flex items-center justify-center shrink-0 text-brand-emerald">
+                  <section.icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-2">{section.title}</h2>
-                  <p className="text-gray-600 leading-relaxed">{section.content}</p>
+                  <h2 className="text-base font-display font-bold text-matte-charcoal mb-1">{section.title}</h2>
+                  <p className="text-sm text-matte-charcoal/70 leading-relaxed">{section.content}</p>
                 </div>
               </div>
             </Card.Content>
@@ -83,10 +83,10 @@ const Privacy = () => {
       </div>
 
       <Card className="mt-8">
-        <Card.Content className="text-center">
-          <p className="text-gray-600">
+        <Card.Content className="text-center py-4">
+          <p className="text-sm text-matte-charcoal/60 font-medium">
             Questions about our privacy policy?{' '}
-            <a href="/contact" className="text-indigo-600 hover:underline">Contact us</a>
+            <a href="/contact" className="text-brand-emerald font-bold hover:text-brand-emerald-hover transition-colors">Contact us</a>
           </p>
         </Card.Content>
       </Card>

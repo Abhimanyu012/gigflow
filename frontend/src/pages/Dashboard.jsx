@@ -10,10 +10,27 @@ import {
   Clock,
   CheckCircle,
   Users,
+  Plus,
 } from 'lucide-react';
 import { fetchMyGigs } from '../store/slices/gigSlice';
 import { fetchMyBids } from '../store/slices/bidSlice';
-import { Card, Badge, Button, LoadingScreen } from '../components/ui';
+import { Badge, Button, LoadingScreen } from '../components/ui';
+
+/* ── Stat Card (dark, brass numeral, emerald left border) ── */
+const StatCard = ({ value, label, icon: Icon, prefix = '' }) => (
+  <div className="bg-matte-surface border border-matte-divider rounded-xl p-5 border-l-2 border-l-brand-emerald/40">
+    <p
+      className="text-2xl font-mono font-bold tracking-tight leading-none mb-1.5"
+      style={{ color: 'var(--color-brass)' }}
+    >
+      {prefix}{value}
+    </p>
+    <div className="flex items-center gap-1.5">
+      <Icon className="w-3.5 h-3.5 text-matte-stone/30" />
+      <p className="text-xs font-semibold uppercase tracking-wider text-matte-stone/40">{label}</p>
+    </div>
+  </div>
+);
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -52,255 +69,187 @@ const Dashboard = () => {
     return <LoadingScreen />;
   }
 
+  const getStatusVariant = (status) =>
+    ({ open: 'success', 'in-progress': 'warning', completed: 'info', cancelled: 'danger' }[status] || 'default');
+
+  const getBidVariant = (status) =>
+    ({ hired: 'success', pending: 'warning', rejected: 'danger' }[status] || 'default');
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* Welcome Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Welcome back, {user?.name?.split(' ')[0]}!
-        </h1>
-        <p className="text-gray-500">
-          {isClient
-            ? "Here's an overview of your posted gigs and activities."
-            : "Here's an overview of your bids and earnings."}
-        </p>
-      </div>
+    <div className="min-h-screen bg-matte-charcoal">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {isClient ? (
-          <>
-            <Card>
-              <Card.Content className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-linear-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center">
-                  <Briefcase className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-gray-900">{stats.totalGigs}</p>
-                  <p className="text-sm text-gray-500">Total Gigs</p>
-                </div>
-              </Card.Content>
-            </Card>
+        {/* ── Page header ── */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
+          <div>
+            <p className="text-xs font-sans font-semibold uppercase tracking-widest text-matte-stone/35 mb-1">
+              {isClient ? 'Client workspace' : 'Freelancer workspace'}
+            </p>
+            <h1 className="text-2xl md:text-3xl font-display font-extrabold text-matte-bone tracking-tight">
+              Welcome back, {user?.name?.split(' ')[0]}.
+            </h1>
+          </div>
+          {isClient ? (
+            <Link to="/gigs/create">
+              <Button variant="primary">
+                <Plus className="w-4 h-4" />
+                Post a Gig
+              </Button>
+            </Link>
+          ) : (
+            <Link to="/gigs">
+              <Button variant="primary">
+                Browse Gigs
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </Link>
+          )}
+        </div>
 
-            <Card>
-              <Card.Content className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-linear-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
-                  <Clock className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-gray-900">{stats.openGigs}</p>
-                  <p className="text-sm text-gray-500">Open Gigs</p>
-                </div>
-              </Card.Content>
-            </Card>
+        {/* ── Stats Grid ── */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+          {isClient ? (
+            <>
+              <StatCard value={stats.totalGigs}     label="Total Gigs"  icon={Briefcase} />
+              <StatCard value={stats.openGigs}      label="Open"        icon={Clock} />
+              <StatCard value={stats.totalBids}     label="Total Bids"  icon={Users} />
+              <StatCard value={stats.completedGigs} label="Completed"   icon={CheckCircle} />
+            </>
+          ) : (
+            <>
+              <StatCard value={stats.totalBids}    label="Total Bids"  icon={FileText} />
+              <StatCard value={stats.pendingBids}   label="Pending"     icon={Clock} />
+              <StatCard value={stats.acceptedBids}  label="Accepted"    icon={CheckCircle} />
+              <StatCard value={stats.totalEarnings} label="Earnings"    icon={DollarSign} prefix="$" />
+            </>
+          )}
+        </div>
 
-            <Card>
-              <Card.Content className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-linear-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
-                  <Users className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-gray-900">{stats.totalBids}</p>
-                  <p className="text-sm text-gray-500">Total Bids</p>
-                </div>
-              </Card.Content>
-            </Card>
+        {/* ── Activity + Quick Actions ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Quick Actions */}
+          <div className="bg-matte-surface border border-matte-divider rounded-xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-matte-divider">
+              <h2 className="text-sm font-display font-bold text-matte-bone tracking-tight">Quick Actions</h2>
+            </div>
+            <div className="p-5 space-y-3">
+              {isClient ? (
+                <>
+                  <Link to="/gigs/create" className="block">
+                    <Button variant="primary" fullWidth className="justify-between">
+                      Post a New Gig
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </Link>
+                  <Link to="/my-gigs" className="block">
+                    <Button variant="secondary" fullWidth className="justify-between">
+                      Manage My Gigs
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/gigs" className="block">
+                    <Button variant="primary" fullWidth className="justify-between">
+                      Browse Available Gigs
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </Link>
+                  <Link to="/my-bids" className="block">
+                    <Button variant="secondary" fullWidth className="justify-between">
+                      View My Bids
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
 
-            <Card>
-              <Card.Content className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-linear-to-r from-pink-500 to-rose-500 rounded-xl flex items-center justify-center">
-                  <CheckCircle className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-gray-900">{stats.completedGigs}</p>
-                  <p className="text-sm text-gray-500">Completed</p>
-                </div>
-              </Card.Content>
-            </Card>
-          </>
-        ) : (
-          <>
-            <Card>
-              <Card.Content className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-linear-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center">
-                  <FileText className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-gray-900">{stats.totalBids}</p>
-                  <p className="text-sm text-gray-500">Total Bids</p>
-                </div>
-              </Card.Content>
-            </Card>
-
-            <Card>
-              <Card.Content className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-linear-to-r from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center">
-                  <Clock className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-gray-900">{stats.pendingBids}</p>
-                  <p className="text-sm text-gray-500">Pending</p>
-                </div>
-              </Card.Content>
-            </Card>
-
-            <Card>
-              <Card.Content className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-linear-to-r from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
-                  <CheckCircle className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-gray-900">{stats.acceptedBids}</p>
-                  <p className="text-sm text-gray-500">Accepted</p>
-                </div>
-              </Card.Content>
-            </Card>
-
-            <Card>
-              <Card.Content className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-linear-to-r from-pink-500 to-rose-500 rounded-xl flex items-center justify-center">
-                  <DollarSign className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <p className="text-3xl font-bold text-gray-900">${stats.totalEarnings}</p>
-                  <p className="text-sm text-gray-500">Earnings</p>
-                </div>
-              </Card.Content>
-            </Card>
-          </>
-        )}
-      </div>
-
-      {/* Quick Actions & Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Quick Actions */}
-        <Card>
-          <Card.Header>
-            <h2 className="text-lg font-semibold text-gray-900">Quick Actions</h2>
-          </Card.Header>
-          <Card.Content className="space-y-3">
-            {isClient ? (
-              <>
-                <Link to="/gigs/create" className="block">
-                  <Button variant="primary" fullWidth className="justify-between">
-                    Post a New Gig
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-                <Link to="/my-gigs" className="block">
-                  <Button variant="outline" fullWidth className="justify-between">
-                    Manage My Gigs
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link to="/gigs" className="block">
-                  <Button variant="primary" fullWidth className="justify-between">
-                    Browse Available Gigs
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-                <Link to="/my-bids" className="block">
-                  <Button variant="outline" fullWidth className="justify-between">
-                    View My Bids
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-              </>
-            )}
-          </Card.Content>
-        </Card>
-
-        {/* Recent Activity */}
-        <div className="lg:col-span-2">
-          <Card>
-            <Card.Header className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900">
+          {/* Recent Activity */}
+          <div className="lg:col-span-2 bg-matte-surface border border-matte-divider rounded-xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-matte-divider flex items-center justify-between">
+              <h2 className="text-sm font-display font-bold text-matte-bone tracking-tight">
                 {isClient ? 'Recent Gigs' : 'Recent Bids'}
               </h2>
               <Link
                 to={isClient ? '/my-gigs' : '/my-bids'}
-                className="text-sm text-indigo-600 hover:text-indigo-700"
+                className="text-[11px] font-semibold uppercase tracking-wider text-brand-emerald hover:text-brand-emerald-light transition-colors"
               >
                 View All
               </Link>
-            </Card.Header>
-            <Card.Content>
-              {isClient ? (
-                myGigs.length === 0 ? (
-                  <p className="text-gray-500 text-center py-8">
-                    No gigs posted yet. Create your first gig to get started!
-                  </p>
-                ) : (
-                  <div className="space-y-4">
-                    {myGigs.slice(0, 5).map((gig) => (
-                      <Link
-                        key={gig._id}
-                        to={`/gigs/${gig._id}`}
-                        className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
-                      >
-                        <div className="flex-1 min-w-0">
-                          <p className="font-medium text-gray-900 truncate">
-                            {gig.title}
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            {gig.bids?.length || 0} bids • ${gig.budget}
-                          </p>
-                        </div>
-                        <Badge
-                          variant={
-                            gig.status === 'open'
-                              ? 'success'
-                              : gig.status === 'in-progress'
-                              ? 'warning'
-                              : 'info'
-                          }
-                        >
-                          {gig.status}
-                        </Badge>
-                      </Link>
-                    ))}
-                  </div>
-                )
-              ) : myBids.length === 0 ? (
-                <p className="text-gray-500 text-center py-8">
-                  No bids placed yet. Start bidding on gigs to get hired!
-                </p>
+            </div>
+
+            {isClient ? (
+              myGigs.length === 0 ? (
+                <div className="px-6 py-12 text-center">
+                  <p className="text-sm text-matte-stone/35">No gigs posted yet.</p>
+                  <Link to="/gigs/create" className="text-sm text-brand-emerald hover:underline mt-1 inline-block">
+                    Create your first gig →
+                  </Link>
+                </div>
               ) : (
-                <div className="space-y-4">
-                  {myBids.slice(0, 5).map((bid) => (
+                <div>
+                  {myGigs.slice(0, 5).map((gig, i) => (
                     <Link
-                      key={bid._id}
-                      to={`/gigs/${bid.gigId?._id || bid.gigId}`}
-                      className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                      key={gig._id}
+                      to={`/gigs/${gig._id}`}
+                      className={`flex items-center justify-between px-6 py-4 hover:bg-matte-charcoal transition-colors ${
+                        i < myGigs.slice(0,5).length - 1 ? 'border-b border-matte-divider' : ''
+                      }`}
                     >
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium text-gray-900 truncate">
-                          {bid.gigId?.title || 'Gig'}
+                        <p className="font-display font-semibold text-sm text-matte-bone truncate">
+                          {gig.title}
                         </p>
-                        <p className="text-sm text-gray-500">
-                          ${bid.price}
+                        <p className="text-xs text-matte-stone/35 font-medium mt-0.5">
+                          {gig.bids?.length || 0} bids ·{' '}
+                          <span className="font-mono" style={{ color: 'var(--color-brass)' }}>
+                            ${gig.budget}
+                          </span>
                         </p>
                       </div>
-                      <Badge
-                        variant={
-                          bid.status === 'hired'
-                            ? 'success'
-                            : bid.status === 'pending'
-                            ? 'warning'
-                            : 'danger'
-                        }
-                      >
-                        {bid.status}
+                      <Badge variant={getStatusVariant(gig.status)} size="sm">
+                        {gig.status}
                       </Badge>
                     </Link>
                   ))}
                 </div>
-              )}
-            </Card.Content>
-          </Card>
+              )
+            ) : myBids.length === 0 ? (
+              <div className="px-6 py-12 text-center">
+                <p className="text-sm text-matte-stone/35">No bids placed yet.</p>
+                <Link to="/gigs" className="text-sm text-brand-emerald hover:underline mt-1 inline-block">
+                  Browse open gigs →
+                </Link>
+              </div>
+            ) : (
+              <div>
+                {myBids.slice(0, 5).map((bid, i) => (
+                  <Link
+                    key={bid._id}
+                    to={`/gigs/${bid.gigId?._id || bid.gigId}`}
+                    className={`flex items-center justify-between px-6 py-4 hover:bg-matte-charcoal transition-colors ${
+                      i < myBids.slice(0,5).length - 1 ? 'border-b border-matte-divider' : ''
+                    }`}
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="font-display font-semibold text-sm text-matte-bone truncate">
+                        {bid.gigId?.title || 'Gig'}
+                      </p>
+                      <p className="text-xs font-mono mt-0.5" style={{ color: 'var(--color-brass)' }}>
+                        ${bid.price}
+                      </p>
+                    </div>
+                    <Badge variant={getBidVariant(bid.status)} size="sm">
+                      {bid.status}
+                    </Badge>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

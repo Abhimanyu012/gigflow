@@ -1,6 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
-/* Custom styles */
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* ── Primary accent: deep emerald ── */
+  --color-brand-emerald: #0f4c3a;
+  --color-brand-emerald-hover: #0c3d2e;
+  --color-brand-emerald-light: #e6efec;
+
+  /* ── Dark surfaces ── */
+  --color-matte-charcoal: #1c1d1f;
+  --color-matte-charcoal-light: #242527;
+  --color-matte-ink: #0d0e0f;
+  --color-matte-divider: #2e2f32;
+  --color-matte-surface: #242527;
+  --color-matte-surface-raised: #2c2d30;
+
+  /* ── Light surfaces ── */
+  --color-matte-stone: #f5f4f0;
+  --color-matte-bone: #faf9f6;
+  --color-matte-gray: #e6e5e0;
+  --color-matte-gray-mid: #d0cfc9;
+
+  /* ── Brass / money accent ── */
+  --color-brass: #8B6914;
+  --color-brass-light: #fef9ec;
+  --color-brass-muted: #b8970e;
+}
+
+/* ─────────────────────────────────── */
+/* Base                                */
+/* ─────────────────────────────────── */
+
 html {
   scroll-behavior: smooth;
 }
@@ -8,22 +42,27 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #111827;
-  background-color: #f9fafb;
+  color: #faf9f6;
+  background-color: #1c1d1f;
+  font-family: var(--font-sans);
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+/* ─────────────────────────────────── */
+/* Scrollbar                           */
+/* ─────────────────────────────────── */
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Text truncation */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #242527; }
+::-webkit-scrollbar-thumb { background: #3a3b3e; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #4e4f52; }
+
+/* ─────────────────────────────────── */
+/* Typography helpers                  */
+/* ─────────────────────────────────── */
+
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -40,71 +79,186 @@ body {
   overflow: hidden;
 }
 
-/* Custom gradient text */
-.gradient-text {
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  background-image: linear-gradient(to right, #4f46e5, #9333ea);
+/* Brass numeral style — for money/stats */
+.stat-value {
+  font-family: var(--font-mono);
+  color: var(--color-brass);
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
 }
 
-/* Grid pattern background */
-.bg-grid-white\/10 {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.1)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+.stat-value-light {
+  font-family: var(--font-mono);
+  color: var(--color-brass-muted);
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* ─────────────────────────────────── */
+/* Liquid Glass — Primary Button       */
+/* ─────────────────────────────────── */
+
+.btn-glass-primary {
+  background: rgba(15, 76, 58, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.22),
+    0 4px 14px rgba(15, 76, 58, 0.18);
+  color: #faf9f6;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
+.btn-glass-primary:hover:not(:disabled) {
+  background: rgba(15, 76, 58, 0.96);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.32),
+    0 6px 20px rgba(15, 76, 58, 0.28);
+  transform: translateY(-1px);
 }
 
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+.btn-glass-primary:active:not(:disabled) {
+  background: rgba(15, 76, 58, 0.80);
+  transform: translateY(0);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    0 2px 8px rgba(15, 76, 58, 0.14);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+/* ─────────────────────────────────── */
+/* Glass Secondary — on dark bg        */
+/* ─────────────────────────────────── */
+
+.btn-glass-dark {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: #faf9f6;
 }
 
-/* Animation for loading spinner */
+.btn-glass-dark:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+.btn-glass-dark:active:not(:disabled) {
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────── */
+/* Glass Secondary — on light bg       */
+/* ─────────────────────────────────── */
+
+.btn-glass-light {
+  background: rgba(28, 29, 31, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(28, 29, 31, 0.10);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.60);
+  color: #1c1d1f;
+}
+
+.btn-glass-light:hover:not(:disabled) {
+  background: rgba(28, 29, 31, 0.10);
+  border-color: rgba(28, 29, 31, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.80), 0 4px 8px rgba(0,0,0,0.04);
+  transform: translateY(-1px);
+}
+
+.btn-glass-light:active:not(:disabled) {
+  background: rgba(28, 29, 31, 0.04);
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────── */
+/* Animations                          */
+/* ─────────────────────────────────── */
+
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
-.animate-spin {
-  animation: spin 1s linear infinite;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-/* Smooth transitions */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-spin        { animation: spin 1s linear infinite; }
+.animate-fade-in     { animation: fadeIn 200ms ease-out forwards; }
+.animate-slide-up    { animation: fadeSlideUp 220ms ease-out forwards; }
+.animate-slide-down  { animation: fadeSlideDown 200ms ease-out forwards; }
+.animate-scale-in    { animation: scaleIn 180ms ease-out forwards; }
+
+/* Page entry */
+.page-enter {
+  animation: fadeSlideUp 240ms ease-out forwards;
+}
+
+/* ─────────────────────────────────── */
+/* Focus                               */
+/* ─────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid #0f4c3a;
+  outline-offset: 2px;
+}
+
+/* ─────────────────────────────────── */
+/* Global transitions                  */
+/* ─────────────────────────────────── */
+
 * {
   transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
 
-/* Focus visible styles */
-:focus-visible {
-  outline: 2px solid #6366f1;
-  outline-offset: 2px;
-}
+/* ─────────────────────────────────── */
+/* Autofill                            */
+/* ─────────────────────────────────── */
 
-/* Input autofill styles */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-box-shadow: 0 0 0 30px #242527 inset !important;
+  -webkit-text-fill-color: #faf9f6 !important;
+  caret-color: #faf9f6;
 }
 
-/* Selection styles */
+/* Light-surface autofill */
+.autofill-light:-webkit-autofill,
+.autofill-light:-webkit-autofill:hover,
+.autofill-light:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #faf9f6 inset !important;
+  -webkit-text-fill-color: #1c1d1f !important;
+  caret-color: #1c1d1f;
+}
+
+/* ─────────────────────────────────── */
+/* Selection                           */
+/* ─────────────────────────────────── */
+
 ::selection {
-  background-color: #c7d2fe;
-  color: #312e81;
+  background-color: rgba(15, 76, 58, 0.25);
+  color: #faf9f6;
 }
